@@ -12,7 +12,7 @@ public class MapArray {
     private int[][] Map = new int[width][height];
 
     private int Cross1_x = width / 3;
-    private int Cross2_x = width / 3 * 2;
+    private int Cross2_x = width / 4 * 3;
     private int Cross1_y = height / 2;
     private int Cross2_y = Cross1_y;
 

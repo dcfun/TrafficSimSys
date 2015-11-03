@@ -68,7 +68,7 @@ public class PanelMain extends JPanel implements MouseMotionListener, Runnable{
             int type = node.getType();
             if (type == 3){
             	g.setColor(colors[i++]);
-        		g.fillRect(node.getPoint().getX()-SIZE/2, node.getPoint().getY(), SIZE, SIZE);
+        		g.fillRect(node.getPoint().getX()-SIZE/2, node.getPoint().getY()-SIZE/2, SIZE, SIZE);
             }
         }
 
@@ -87,7 +87,8 @@ public class PanelMain extends JPanel implements MouseMotionListener, Runnable{
         	int sx2 = sx1 + SIZE;
         	int sy2 = sy1 + SIZE;
         	g.drawImage(CAR, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
-        
+        	//TODO
+//        System.out.println("panelMain中绘制的坐标："+car.getCoord().getX()+","+car.getCoord().getY());
         }
     	
 
@@ -104,10 +105,11 @@ public class PanelMain extends JPanel implements MouseMotionListener, Runnable{
     }
 
     public void run() {
+    	int i = 1;
         while (true){
             this.repaint();
             try {
-                Thread.sleep(20);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

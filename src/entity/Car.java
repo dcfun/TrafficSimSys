@@ -7,7 +7,7 @@ package entity;
 public class Car {
     private int id;
     private Point coord;	//当前坐标
-    private Point moveXY = new Point(10,10);	//x,y坐标一次移动的距离
+    private Point moveXY;	//x,y坐标一次移动的距离
     private int birthId;	//出生地
     private int destId;		//死亡地
     private int partSrc;	//线段起点
@@ -16,14 +16,18 @@ public class Car {
     private int color;
     private boolean life;
 
-    
 	public Car(int id) {
         this.id = id;
     }
 	
 	public void move(){
-		this.coord.setX(this.coord.getX()+this.moveXY.getX());
-		this.coord.setX(this.coord.getY()+this.moveXY.getY());
+//		//TODO
+//		System.out.println("---------------------------");
+//		System.out.println("move之前："+this.coord.getX()+","+this.coord.getY());
+		this.coord.setX(this.getCoord().getX()+this.getMoveXY().getX());
+		this.coord.setY(this.getCoord().getY()+this.getMoveXY().getY());
+//		System.out.println("move之后："+this.coord.getX()+","+this.coord.getY());
+//		System.out.println("---------------------------");
 	}
     
 	public int getDir() {

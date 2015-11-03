@@ -15,14 +15,26 @@ public class SysDto {
     private List<Node> nodeList = new ArrayList<Node>();
     private List<Integer> birthList = new ArrayList<Integer>();		// “4” 预处理节点的数组
     private List<Integer> destList = new ArrayList<Integer>();		// “3”
+    private int[][] next_partEnd_matrix;	//使用弗洛伊德算法 得出的最短路径数组
 
-    private int MAX_NUM = 1;    //小车的最大数量
+/////////////////////////////////////////////////////
+    private int MAX_NUM = 50;    //小车的最大数量
+/////////////////////////////////////////////////////
+    
+
+    public int[][] getNext_partEnd_matrix() {
+		return next_partEnd_matrix;
+	}
+
+	public void setNext_partEnd_matrix(int[][] next_partEnd_matrix) {
+		this.next_partEnd_matrix = next_partEnd_matrix;
+	}
 
     public int getMAX_NUM() {
         return MAX_NUM;
     }
 
-    public void setMAX_NUM(int MAX_NUM) {
+	public void setMAX_NUM(int MAX_NUM) {
         this.MAX_NUM = MAX_NUM;
     }
 
