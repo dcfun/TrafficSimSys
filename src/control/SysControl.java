@@ -44,7 +44,7 @@ public class SysControl {
 						while (true) {
 							service.carRun();
 							try {
-								Thread.sleep(5);
+								Thread.sleep(8);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
@@ -55,7 +55,6 @@ public class SysControl {
 				//启动紫禁城
 				PanelThread.start();
 				CarThread.start();
-
 			}
 
 		});

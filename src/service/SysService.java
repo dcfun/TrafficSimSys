@@ -411,29 +411,77 @@ public class SysService {
     		System.out.println("?????????????????????????????????????????????????????/无法判断方向");
     	}
     }
+    
+    
+    /**
+     * 重生小车的时候 要考虑小车的 左右两侧 有没有车 
+     * 		如果有 return false 等待下一次执行的时候 再重新initCar
+     * 
+     * canMove2函数 应该是 让其 隔一段时间生成一辆 这样 他们  就 不会叠在一起了
+     * 
+     *  令 节点0处  貌似有问题啊啊啊啊啊
+     */
+    public boolean canMove2(Car car){
+    	
+    	
+    	
+    	
+    	return true;
+    }
 
-    //判断*碰撞*函数
+    /**
+     *	判断*碰撞*函数
+     * 原则：右转 让着 直行的（如果相撞   **直行的**先走）
+//     * 1, 如果小车是右转，且 【前方】有车  return false;
+//     * 2, ······ 直行  
+//     * 				【前、后方】有车 return false; 
+//     *  others
+//     *  	return ture;
+ * 
+ * 即：【前后方】有车 return false;
+ * 	  others  return true;
+ * 
+ * 
+     */
+    
     public boolean canMove(Car car){
     	List<Car> carList = this.dto.getCarList();
-    	int x1 = car.getCoord().getX();
-    	int y1 = car.getCoord().getY();
+    	List<Node> nodeList = this.dto.getNodeList();
+    	int currentX = car.getCoord().getX();
+    	int currentY = car.getCoord().getY();
+    	int partEndX = nodeList.get(car.getPartEnd()).getPoint().getX();
+    	int partEndY = nodeList.get(car.getPartEnd()).getPoint().getY();
     	
-    	for(Car otherCar: carList){
-   			int x2 = otherCar.getCoord().getX();
-      		int y2 = otherCar.getCoord().getY();
-
-      		if(x2==x1+20 && y2==y1){
-      			return false;
-      		}
-      		if(x2==x1-20 && y2==y1){
-      			return false;
-      		}
-        	if(x2==x1 && y2==y1+20){
-        		return false;
-        	}
-        	if(x2==x1 && y2==y1-20){
-        		return false;
-        	}
+    	if(currentY == partEndY){
+    		if(partEndX-currentX>0){
+    			for(Car otherCars : carList){
+    				if(currentX+20 == otherCars.getCoord().getX() && currentY == otherCars.getCoord().getY()){
+    					return false;
+    				}
+    			}
+    		}else{
+    			for(Car otherCars : carList){
+    				if(currentX-20 == otherCars.getCoord().getX() && currentY == otherCars.getCoord().getY()){
+    					return false;
+    				}
+    			}
+    		}
+    	}
+    	
+    	if(currentX == partEndX){
+    		if(partEndY-currentY>0){
+    			for(Car otherCars : carList){
+    				if(currentY+20 == otherCars.getCoord().getY() && currentX == otherCars.getCoord().getX()){
+    					return false;
+    				}
+    			}
+    		}else{
+    			for(Car otherCars : carList){
+    				if(currentY-20 == otherCars.getCoord().getY() && currentX == otherCars.getCoord().getX()){
+    					return false;
+    				}
+    			}
+    		}
     	}
     	
     	return true;
@@ -443,6 +491,8 @@ public class SysService {
     public void carRun(){
     	List<Car> carList = this.dto.getCarList();
     	List<Node> nodeList = this.dto.getNodeList();
+    	int count = 0;	//carRun函数 执行的次数
+    	
     	for(Car car: carList){
     		//TODO
 //    		System.out.println(car.isLife());
@@ -478,16 +528,20 @@ public class SysService {
    					//TODO
 //   					System.out.println("setDir之后： x="+car.getCoord().getX()+"y="+car.getCoord().getY());
    				}else{		//**在路上**
-       				if(canMove(car)){	//调用*判断碰撞函数* 	要么移动，要么停一下
-       					car.move();
+//       				if(canMove(car)){	//调用*判断碰撞函数* 	要么移动，要么停一下
+       				
+   					//carRun() 每执行25次  生成一辆小车、、
+   					if(count % 53==0){
+   						car.move();
        				}
        				
    				}
     				
     		} else{		//死的, 暂时使其立即复活
-        		//将小车的 坐标、partSrc 设置在 出生节点上 “1”
+        		//将小车的 坐标、partSrc 设置在 预处理节点上 “4”
         		InitCar(car);
-        		if(canMove(car)){
+        		
+        		if(canMove2(car)){
         			car.setLife(true);
         		}
         	}
